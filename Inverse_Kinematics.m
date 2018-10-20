@@ -1,7 +1,7 @@
 
 clc; clear;
-x=1.7071; y=0; z=-1.7071; %End Effector Position
-a1=1; a2=1; a3=1; ac=1;% Link Lengths
+x=0.1957; y=0; z=-0.4810; %End Effector Position
+a2=0.25; a3=0.25; ac=0.1;% Link Lengths
 
 t1=atan(y/x); % TOP VIEW: Angle of rotation in xy-plane (YAW)
 
