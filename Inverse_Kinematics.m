@@ -1,37 +1,29 @@
-hold off
-clc
-clear
-%Arm Lengths
-a2=1;
-a4=1;
-%Desired X-Y-Position of the end effector
-X=.707;
-Y=1.707;
-for t=0:.05:1
-%t=t
-%Desired X-Y-Position of the end effector as a function of time
-xt=X*t; 
-yt=Y*t; 
-%Equations used to calculate theta 1/2
-r1=sqrt(xt.^2+yt.^2);
-phi1=acos(((a4.^2)-(a2.^2)-(r1.^2))/(-2*a2*r1));
-phi2=atan2(yt,xt);
-phi3=acos(((r1.^2)-(a2.^2)-(a4.^2))/(-2*a2*a4));
-%T1 is Theta 1 in radians
-T1=phi2-phi1;
-%T2 is (180 degrees - angle phi3)
-T2=pi-phi3;
-%Vector coordinates of the linkage
-x=[0 a2*cos(T1) xt];
-y=[0 a2*sin(T1) yt];
-%Theta in Degrees
-T1=T1*(180/pi)
-T2=T2*(180/pi)
-%Plot end effector 
-hold off
-plot(x,y,'o-');  
-axis equal
-axis([-3 3 -3 3])
-pause(.05)
+
+clc; clear;
+x=1.7071; y=0; z=-1.7071; %End Effector Position
+a1=1; a2=1; a3=1; ac=1;% Link Lengths
+
+t1=atan(y/x); % TOP VIEW: Angle of rotation in xy-plane (YAW)
+
+r1=sqrt((x-ac*cos(t1))^2+(y-ac*sin(t1))^2);
+r4=sqrt((x+ac*cos(t1))^2+(y+ac*sin(t1))^2);%
+r2=z; %
+phi2=atan(r2/r1); %
+
+r3= sqrt(r1^2+r2^2);%
+phi1=acos((-a3^2+a2^2+r3^2)/(2*a2*r3)); %
+t2=phi2-phi1; %
+
+phi3=acos((-r3^2+a2^2+a3^2)/(2*a2*a3)); % 
+t3=pi-phi3;
+
+x=[0 ac*cos(t1) ac*cos(t1)+a2*cos(t2) ac*cos(t1)+a2*cos(t2)+a3*cos(t2+t3)]
+y=[0 ac*sin(t1) ac*sin(t1)+a2*cos(t2)*sin(t1) ac*sin(t1)+a2*cos(t2)*sin(t1)+a3*cos(t2+t3)*sin(t1)]
+z=[0 0 a2*sin(t2) a2*sin(t2)+a3*sin(t2+t3)]
+
 hold on
-end
+plot3(x,y,z,'o-')
+axis equal
+t1=t1*180/pi
+t2=t2*180/pi
+t3=t3*(180/pi)
